@@ -30,14 +30,13 @@ class _CalculatorState extends State<Calculator> {
     } else if (val == '=') {
       int index = exp.indexOf('_');
       exp.removeAt(index);
-      print(exp);
       setState(() {
         try {
           ans = widget.ds.brackets(widget.ds.generator(exp, widget.c.numbers));
         } on FormatException catch (e) {
           x = e.toString().split(':')[1];
         } catch (e) {
-          x = "Syntax Error";
+          x = e.toString();
         }
       });
       exp.insert(index, '_');
@@ -62,7 +61,6 @@ class _CalculatorState extends State<Calculator> {
         }
       }
     }
-    print(exp);
   }
 
   @override

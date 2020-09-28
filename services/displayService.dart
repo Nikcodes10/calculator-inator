@@ -14,14 +14,14 @@ class DisplayService {
 
   int _combinator(int n, int r) {
     if (n < r) {
-      return -1;
+      throw FormatException("n should be >= r");
     }
     return _factorial(n) ~/ (_factorial(r) * _factorial(n - r));
   }
 
   int _permutator(int n, int r) {
     if (n < r) {
-      return -1;
+      throw FormatException("n should be >= r");
     }
     return _factorial(n) ~/ _factorial(n - r);
   }
@@ -52,12 +52,6 @@ class DisplayService {
     for (int i = 0; i < operators.length; i++) {
       while (numb.indexOf(operators[i]) >= 0) {
         index = numb.indexOf(operators[i]);
-        //if (operators.indexOf(numb[index - 1]) != -1
-        // || operators.indexOf(numb[index + 1]) != -1
-        // ) {
-        // print("Syntax Error");
-        // return;
-        // }
         int f = 0;
         String op = operators[i];
         if (op == '/') {
@@ -105,15 +99,15 @@ class DisplayService {
           index++;
           f++;
         } else if (op == 'root') {
-          print("hi");
           numb[index + 1] = sqrt(numb[index + 1]);
           index++;
           f++;
         } else if (op == '^') {
           numb[index + 1] = pow(numb[index - 1], numb[index + 1]);
         } else if (op == 'sq') {
-          numb[index] = pow(numb[index + 1], 2);
+          numb[index + 1] = pow(numb[index + 1], 2);
           f++;
+          index++;
         } else if (op == 'x3') {
           numb[index] = pow(numb[index - 1], 2);
           f++;
@@ -142,7 +136,9 @@ class DisplayService {
         numb.removeWhere((element) => element == null);
       }
     }
-    print(numb);
+    if (numb.length != 1) {
+      throw FormatException("Syntax Error");
+    }
     return numb[0] + 0.0;
   }
 
@@ -157,11 +153,9 @@ class DisplayService {
       if (s.length == 1) {
         break;
       }
-      print(i);
       if (s[i] == ')') {
         if (starters.length == 0) {
-          print("ERROR )");
-          break;
+          throw FormatException("Syntax Error");
         }
         tans = _calculator(x);
 
@@ -184,6 +178,9 @@ class DisplayService {
         x.add(s[i]);
       }
       i++;
+    }
+    if (s.length != 1) {
+      throw FormatException("Syntax Error");
     }
     return double.parse((s[0] + 0.0).toStringAsFixed(6));
   }
@@ -254,7 +251,6 @@ class DisplayService {
       }
       finalExp[i] = -1 * finalExp[i];
     }
-    print(finalExp);
     return finalExp;
   }
 }
