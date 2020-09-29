@@ -1,27 +1,35 @@
 import 'dart:math';
 
+class ErrorHandler implements Exception {
+  final String message;
+  ErrorHandler(this.message);
+  String err() {
+    return message;
+  }
+}
+
 class DisplayService {
   int _factorial(int n) {
-    if (n > 20) throw FormatException('Cannot calculate factorial > 20');
+    if (n > 20) throw ErrorHandler('Cannot calculate factorial > 20');
     int f = 1;
     for (int i = 2; i <= n; i++) {
       f = f * i;
     }
     return n >= 0
         ? f
-        : throw FormatException('Cannot calculate negative number factorial');
+        : throw ErrorHandler('Cannot calculate negative number factorial');
   }
 
   int _combinator(int n, int r) {
     if (n < r) {
-      throw FormatException("n should be >= r");
+      throw ErrorHandler("n should be >= r");
     }
     return _factorial(n) ~/ (_factorial(r) * _factorial(n - r));
   }
 
   int _permutator(int n, int r) {
     if (n < r) {
-      throw FormatException("n should be >= r");
+      throw ErrorHandler("n should be >= r");
     }
     return _factorial(n) ~/ _factorial(n - r);
   }
@@ -137,7 +145,7 @@ class DisplayService {
       }
     }
     if (numb.length != 1) {
-      throw FormatException("Syntax Error");
+      throw ErrorHandler("Syntax Error");
     }
     return numb[0] + 0.0;
   }
@@ -155,7 +163,7 @@ class DisplayService {
       }
       if (s[i] == ')') {
         if (starters.length == 0) {
-          throw FormatException("Syntax Error");
+          throw ErrorHandler("Syntax Error");
         }
         tans = _calculator(x);
 
@@ -180,7 +188,7 @@ class DisplayService {
       i++;
     }
     if (s.length != 1) {
-      throw FormatException("Syntax Error");
+      throw ErrorHandler("Syntax Error");
     }
     return double.parse((s[0] + 0.0).toStringAsFixed(6));
   }

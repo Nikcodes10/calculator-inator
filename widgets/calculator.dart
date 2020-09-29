@@ -33,10 +33,10 @@ class _CalculatorState extends State<Calculator> {
       setState(() {
         try {
           ans = widget.ds.brackets(widget.ds.generator(exp, widget.c.numbers));
-        } on FormatException catch (e) {
-          x = e.toString().split(':')[1];
+        } on ErrorHandler catch (e) {
+          x = e.err();
         } catch (e) {
-          x = e.toString();
+          x = "Syntax Error";
         }
       });
       exp.insert(index, '_');
